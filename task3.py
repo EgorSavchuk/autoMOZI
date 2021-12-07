@@ -236,6 +236,3 @@ def get_result():
                   f'(a^{a_pow} * b^{b_pow} )^{pow_general} = (a^{a_pow} * b^{b_pow})^{s_pow} = c\n' \
                   f'c = {print_cycle(get_raised_full_cycle(get_cycle(result_substitution), s_pow))}'
     return answer
-
-
-print(get_result())
