@@ -219,12 +219,12 @@ def get_result():
              f'{print_simplification(pow_substitution2, b_pow, b_lcm)}\n\n' \
              f'a^{pow_substitution1} = a^{a_pow} = {print_cycle(substitution1_in_pow)}\n' \
              f'b^{pow_substitution2} = b^{b_pow} = {print_cycle(substitution2_in_pow)}\n\n' \
-             f'a^{a_pow} ={print_substitution(get_default_substitution(substitution2))}\n' \
-             f'      {print_substitution(to_substitution(substitution1_in_pow, substitution1))}\n\n' \
-             f'b^{b_pow} ={print_substitution(get_default_substitution(substitution2))}\n' \
-             f'     {print_substitution(to_substitution(substitution2_in_pow, substitution2))}\n\n' \
-             f'a^{a_pow} * b{b_pow} ={print_substitution(get_default_substitution(result_substitution))}\n' \
-             f'           {print_substitution(result_substitution)}\n\n' \
+             f'a^{a_pow} =  {print_substitution(get_default_substitution(substitution2))}\n' \
+             f'       {print_substitution(to_substitution(substitution1_in_pow, substitution1))}\n\n' \
+             f'b^{b_pow} =  {print_substitution(get_default_substitution(substitution2))}\n' \
+             f'       {print_substitution(to_substitution(substitution2_in_pow, substitution2))}\n\n' \
+             f'a^{a_pow} * b{b_pow} =  {print_substitution(get_default_substitution(result_substitution))}\n' \
+             f'             {print_substitution(result_substitution)}\n\n' \
              f'a^{a_pow} * b{b_pow} = {print_cycle(get_cycle(result_substitution))}\n\n'
     if pow_general != 1:
         s_pow = get_modulo(pow_general, get_lcm(get_cycle(result_substitution)))
