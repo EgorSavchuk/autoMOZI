@@ -1,6 +1,13 @@
 from math import lcm
 
 
+def get_default_substitution(substitution):
+    result_substitution = [1] * len(substitution)
+    for i in range(0, len(substitution)):
+        result_substitution[i] = i + 1
+    return result_substitution
+
+
 def get_cycle(substitution):
     """
     :param substitution: Нижнюю строчку табличной подстановки
@@ -21,11 +28,6 @@ def get_cycle(substitution):
             cycles.append(cycle)
     cycles.remove([])
     return cycles
-
-
-lcms_a = []
-lcms_b = []
-lcms_cnt = 0
 
 
 def get_lcm(full_cycle) -> int:
@@ -116,6 +118,31 @@ def calculate_substitutions(substitution1, substitution2):
     return result_substitution
 
 
+def paste_lcm(full_cycle) -> int:
+    """
+    :param full_cycle: Цикл подстановки
+    :return: Массив из НОК каждого цикла
+    """
+    cycles_len = []
+    for one_cycle in full_cycle:
+        cycles_len.append(len(one_cycle))
+    return cycles_len
+
+
+def print_simplification(task_pow, s_pow, s_lcm):
+    result = f'{task_pow} = '
+    multiplier = int(task_pow / s_lcm)
+    result += f'{multiplier} * {s_lcm} + {s_pow}'
+    return result
+
+
+def print_cycle(substitution_cycle):
+    result = f''
+    for cycle in substitution_cycle:
+        result += f'{cycle} '
+    return result
+
+
 def get_result():
     substitution1 = [7, 5, 1, 3, 6, 2, 8, 4, 10, 9]
     substitution2 = [5, 9, 1, 2, 3, 7, 4, 10, 6, 8]
@@ -129,8 +156,17 @@ def get_result():
     # pow_substitution1 = int(input("Ввееди степень первой подстановки: "))
     # pow_substitution2 = int(input("Ввееди степень второй подстановки: "))
     # pow_general = int(input("Ввееди общую степень подстановок, если такой нет в задании введите 1: "))
+    print_pow_general = ''
+    if pow_general != 1:
+        print_pow_general = f'^{pow_general}'
     substitution1_cycle = get_cycle(substitution1)
     substitution2_cycle = get_cycle(substitution2)
+    for_print_substitution1_cycle = f''
+    for cycle in substitution1_cycle:
+        for_print_substitution1_cycle += f'{cycle} '
+    for_print_substitution2_cycle = f''
+    for cycle in substitution2_cycle:
+        for_print_substitution2_cycle += f'{cycle} '
     a_lcm = get_lcm(substitution1_cycle)
     b_lcm = get_lcm(substitution2_cycle)
     a_pow = get_modulo(pow_substitution1, a_lcm)
@@ -139,13 +175,23 @@ def get_result():
     substitution2_in_pow = get_raised_full_cycle(substitution2_cycle, b_pow)
     result_substitution = calculate_substitutions(to_substitution(substitution1_in_pow, substitution1),
                                                   to_substitution(substitution2_in_pow, substitution2))
-    answer = f'a = {substitution1_cycle}\n' \
-             f'b = {substitution2_cycle}\n' \
-             f'O(a) = НОК(1,1,1) = {a_lcm}\n' \
-             f'O(b) = НОК(2,2,2) = {b_lcm}\n' \
-             f'a^{a_pow} = {substitution1_in_pow}\n' \
-             f'b^{b_pow} = {substitution2_in_pow}\n' \
+    lcm_to_a = paste_lcm(substitution1_cycle)
+    lcm_to_b = paste_lcm(substitution2_cycle)
+    answer = f'\na = {get_default_substitution(substitution1)}\n' \
+             f'    {substitution1}\n\n' \
+             f'b = {get_default_substitution(substitution2)}\n' \
+             f'    {substitution2}\n\n' \
+             f'c = ( a^{pow_substitution1} * b^{pow_substitution2} ){print_pow_general}\n\n' \
+             f'Циклы подстановки a = {print_cycle(substitution1_cycle)}\n' \
+             f'Циклы подстановки b = {print_cycle(substitution2_cycle)}\n\n' \
+             f'O(a) = НОК({print_cycle(lcm_to_a)}) = {a_lcm}\n' \
+             f'O(b) = НОК({print_cycle(lcm_to_b)}) = {b_lcm}\n' \
+             f'{print_simplification(pow_substitution1, a_pow, a_lcm)}\n' \
+             f'{print_simplification(pow_substitution2, b_pow, b_lcm)}\n\n' \
+             f'a^{a_pow} = {print_cycle(substitution1_in_pow)}\n' \
+             f'b^{b_pow} = {print_cycle(substitution2_in_pow)}\n' \
              f'a^{a_pow} o b{b_pow} = {get_cycle(result_substitution)}'
     return answer
+
 
 print(get_result())
