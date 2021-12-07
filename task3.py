@@ -118,15 +118,23 @@ def calculate_substitutions(substitution1, substitution2):
     return result_substitution
 
 
-def paste_lcm(full_cycle) -> int:
+def print_lcm(full_cycle):
     """
     :param full_cycle: Цикл подстановки
-    :return: Массив из НОК каждого цикла
+    :return: список цифр из которых вычисляется НОК
     """
     cycles_len = []
     for one_cycle in full_cycle:
         cycles_len.append(len(one_cycle))
-    return cycles_len
+    result = ''
+    for i in str(cycles_len):
+        if i == '[':
+            result += ''
+        elif i == ']':
+            result += ''
+        else:
+            result += i
+    return result
 
 
 def print_simplification(task_pow, s_pow, s_lcm):
@@ -137,36 +145,58 @@ def print_simplification(task_pow, s_pow, s_lcm):
 
 
 def print_cycle(substitution_cycle):
-    result = f''
+    result = f' '
     for cycle in substitution_cycle:
-        result += f'{cycle} '
+        prepare = ''
+        for i in str(cycle):
+            if i == '[':
+                prepare += '('
+            elif i == ']':
+                prepare += ') '
+            elif i == ',':
+                prepare += ' '
+            else:
+                prepare += i
+        result += prepare
     return result
 
 
+def print_substitution(substitution):
+    result = f' '
+    for i in str(substitution):
+        if i == '[':
+            result += '|'
+        elif i == ']':
+            result += '| '
+        elif i == ',':
+            result += ' '
+        else:
+            result += i
+    return result
+
+
+# def print_lcm(lcm_to_s):
+#     result = ''
+#     for i in str(lcm_to_s):
+#         if i == '[':
+#             result += ''
+#         elif i == ']':
+#             result += ''
+#         else:
+#             result += i
+#     return result
+
+
 def get_result():
-    substitution1 = [7, 5, 1, 3, 6, 2, 8, 4, 10, 9]
-    substitution2 = [5, 9, 1, 2, 3, 7, 4, 10, 6, 8]
-    pow_substitution1 = 348
-    pow_substitution2 = 423
-    pow_general = 80
-    # substitution1 = input("Первая подстановка, введите только числа второй строки через пробел: ").split()
-    # substitution1 = list(map(int, substitution1))
-    # substitution2 = input("Вторая подстановка, введите только числа второй строки через пробел: ").split()
-    # substitution2 = list(map(int, substitution2))
-    # pow_substitution1 = int(input("Ввееди степень первой подстановки: "))
-    # pow_substitution2 = int(input("Ввееди степень второй подстановки: "))
-    # pow_general = int(input("Ввееди общую степень подстановок, если такой нет в задании введите 1: "))
-    print_pow_general = ''
-    if pow_general != 1:
-        print_pow_general = f'^{pow_general}'
+    substitution1 = input("Первая подстановка, введите только числа второй строки через пробел: ").split()
+    substitution1 = list(map(int, substitution1))
+    substitution2 = input("Вторая подстановка, введите только числа второй строки через пробел: ").split()
+    substitution2 = list(map(int, substitution2))
+    pow_substitution1 = int(input("Ввееди степень первой подстановки: "))
+    pow_substitution2 = int(input("Ввееди степень второй подстановки: "))
+    pow_general = int(input("Ввееди общую степень подстановок, если такой нет в задании введите 1: "))
     substitution1_cycle = get_cycle(substitution1)
     substitution2_cycle = get_cycle(substitution2)
-    for_print_substitution1_cycle = f''
-    for cycle in substitution1_cycle:
-        for_print_substitution1_cycle += f'{cycle} '
-    for_print_substitution2_cycle = f''
-    for cycle in substitution2_cycle:
-        for_print_substitution2_cycle += f'{cycle} '
     a_lcm = get_lcm(substitution1_cycle)
     b_lcm = get_lcm(substitution2_cycle)
     a_pow = get_modulo(pow_substitution1, a_lcm)
@@ -175,22 +205,34 @@ def get_result():
     substitution2_in_pow = get_raised_full_cycle(substitution2_cycle, b_pow)
     result_substitution = calculate_substitutions(to_substitution(substitution1_in_pow, substitution1),
                                                   to_substitution(substitution2_in_pow, substitution2))
-    lcm_to_a = paste_lcm(substitution1_cycle)
-    lcm_to_b = paste_lcm(substitution2_cycle)
-    answer = f'\na = {get_default_substitution(substitution1)}\n' \
-             f'    {substitution1}\n\n' \
-             f'b = {get_default_substitution(substitution2)}\n' \
-             f'    {substitution2}\n\n' \
-             f'c = ( a^{pow_substitution1} * b^{pow_substitution2} ){print_pow_general}\n\n' \
+    answer = f'\na = {print_substitution(get_default_substitution(substitution1))}\n' \
+             f'    {print_substitution(substitution1)}\n\n' \
+             f'b = {print_substitution(get_default_substitution(substitution2))}\n' \
+             f'    {print_substitution(substitution2)}\n\n' \
              f'Циклы подстановки a = {print_cycle(substitution1_cycle)}\n' \
              f'Циклы подстановки b = {print_cycle(substitution2_cycle)}\n\n' \
-             f'O(a) = НОК({print_cycle(lcm_to_a)}) = {a_lcm}\n' \
-             f'O(b) = НОК({print_cycle(lcm_to_b)}) = {b_lcm}\n' \
+             f'O(a) = НОК({print_lcm(substitution1_cycle)}) = {a_lcm}\n' \
+             f'O(b) = НОК({print_lcm(substitution2_cycle)}) = {b_lcm}\n' \
              f'{print_simplification(pow_substitution1, a_pow, a_lcm)}\n' \
              f'{print_simplification(pow_substitution2, b_pow, b_lcm)}\n\n' \
-             f'a^{a_pow} = {print_cycle(substitution1_in_pow)}\n' \
-             f'b^{b_pow} = {print_cycle(substitution2_in_pow)}\n' \
-             f'a^{a_pow} o b{b_pow} = {get_cycle(result_substitution)}'
+             f'a^{pow_substitution1} = a^{a_pow} = {print_cycle(substitution1_in_pow)}\n' \
+             f'b^{pow_substitution2} = b^{b_pow} = {print_cycle(substitution2_in_pow)}\n\n' \
+             f'a^{a_pow} ={print_substitution(get_default_substitution(substitution2))}\n' \
+             f'      {print_substitution(to_substitution(substitution1_in_pow, substitution1))}\n\n' \
+             f'b^{b_pow} ={print_substitution(get_default_substitution(substitution2))}\n' \
+             f'     {print_substitution(to_substitution(substitution2_in_pow, substitution2))}\n\n' \
+             f'a^{a_pow} * b{b_pow} ={print_substitution(get_default_substitution(result_substitution))}\n' \
+             f'           {print_substitution(result_substitution)}\n\n' \
+             f'a^{a_pow} * b{b_pow} = {print_cycle(get_cycle(result_substitution))}\n\n'
+    if pow_general != 1:
+        s_pow = get_modulo(pow_general, get_lcm(get_cycle(result_substitution)))
+        answer += f'c = ( a^{a_pow} * b^{b_pow} )^{pow_general}\n\n' \
+                  f'O(a^{a_pow} * b^{b_pow}) = ' \
+                  f'НОК({print_lcm(get_cycle(result_substitution))})' \
+                  f' = {get_lcm(get_cycle(result_substitution))}\n' \
+                  f'{print_simplification(pow_general, s_pow, get_lcm(get_cycle(result_substitution)))}\n\n' \
+                  f'(a^{a_pow} * b^{b_pow} )^{pow_general} = (a^{a_pow} * b^{b_pow})^{s_pow} = c\n' \
+                  f'c = {print_cycle(get_raised_full_cycle(get_cycle(result_substitution), s_pow))}'
     return answer
 
 
