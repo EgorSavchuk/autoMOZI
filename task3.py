@@ -138,6 +138,12 @@ def print_lcm(full_cycle):
 
 
 def print_simplification(task_pow, s_pow, s_lcm):
+    """
+    :param task_pow: Изначальная степень, которую нужно упростить
+    :param s_pow: Остаток от деления, степнь в которую нужно будет возвести
+    :param s_lcm: Нок цикла
+    :return:
+    """
     result = f'{task_pow} = '
     multiplier = int(task_pow / s_lcm)
     result += f'{multiplier} * {s_lcm} + {s_pow}'
@@ -145,6 +151,10 @@ def print_simplification(task_pow, s_pow, s_lcm):
 
 
 def print_cycle(substitution_cycle):
+    """
+    :param substitution_cycle: Цикл
+    :return: Цикл, пригодный для вывода
+    """
     result = f' '
     for cycle in substitution_cycle:
         prepare = ''
@@ -162,6 +172,10 @@ def print_cycle(substitution_cycle):
 
 
 def print_substitution(substitution):
+    """
+    :param substitution: Подстановка
+    :return: Подстановка, пригодная для вывода
+    """
     result = f' '
     for i in str(substitution):
         if i == '[':
@@ -173,18 +187,6 @@ def print_substitution(substitution):
         else:
             result += i
     return result
-
-
-# def print_lcm(lcm_to_s):
-#     result = ''
-#     for i in str(lcm_to_s):
-#         if i == '[':
-#             result += ''
-#         elif i == ']':
-#             result += ''
-#         else:
-#             result += i
-#     return result
 
 
 def get_result():
