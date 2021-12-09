@@ -2,6 +2,10 @@ from math import lcm
 
 
 def get_default_substitution(substitution):
+    """
+    :param substitution: Подстановка с длиной, которой будет обладать результирующая подстановка
+    :return: Подстановка [1,2,3,4,5,6,7.... len]
+    """
     result_substitution = [1] * len(substitution)
     for i in range(0, len(substitution)):
         result_substitution[i] = i + 1
@@ -207,7 +211,7 @@ def get_result_task3(substitution1, substitution2, pow_substitution1, pow_substi
     substitution2_in_pow = get_raised_full_cycle(substitution2_cycle, b_pow)
     result_substitution = calculate_substitutions(to_substitution(substitution1_in_pow, substitution1),
                                                   to_substitution(substitution2_in_pow, substitution2))
-    answer = f'\n\nЗадача 3:\n' \
+    answer = f'\n\nЗадача 2:\n' \
              f'\na = {print_substitution(get_default_substitution(substitution1))}\n' \
              f'    {print_substitution(substitution1)}\n\n' \
              f'b = {print_substitution(get_default_substitution(substitution2))}\n' \

@@ -8,7 +8,7 @@ SETTINGS = {
 
 def get_answer_task2(cardinality):
     answer_task2 = '\n'
-    answer_task2 += "Задача 2:\n\n"
+    answer_task2 += "Задача на исследование абстрактной циклической группы:\n\n"
     answer_task2 += f'{get_g(cardinality)}'
     answer_task2 += f'{get_generating_set(cardinality, get_all_elements(cardinality))}\n\n'
     answer_task2 += f'{get_other_sets(cardinality, get_all_elements(cardinality))}\n'

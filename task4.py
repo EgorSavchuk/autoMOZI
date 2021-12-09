@@ -2,6 +2,10 @@ from math import gcd
 
 
 def get_z(power):
+    """
+    :param power: Сколько элементов в Z
+    :return: Список всех элементов Z
+    """
     z = [0]
     for i in range(1, power):
         z.append(i)
@@ -9,6 +13,10 @@ def get_z(power):
 
 
 def print_z(z):
+    """
+    :param z: Кольцо Z
+    :return: Кольцо Z, пригодное для вывода
+    """
     printable_z = f'Z_{len(z)} = {{ '
     for i in range(1, 5):
         printable_z += f'{z[i]}, '
@@ -19,6 +27,10 @@ def print_z(z):
 
 
 def get_z_with_star(z):
+    """
+    :param z: Кольцо Z
+    :return: Группа Z*
+    """
     z_with_star = []
     for i in z:
         if gcd(i, z[len(z) - 1] + 1) == 1:
@@ -27,6 +39,10 @@ def get_z_with_star(z):
 
 
 def print_array(array):
+    """
+    :param array: Массив
+    :return: Массив, пригодный для вывода
+    """
     printable_z_with_star = '{ '
     for i in range(0, len(array)):
         printable_z_with_star += f'{array[i]}, '
@@ -34,6 +50,12 @@ def print_array(array):
 
 
 def get_order(element, z_with_star, p):
+    """
+    :param element: Элемент, для которого нужно узнать порядок
+    :param z_with_star: Группа Z*
+    :param p: Кол-во элементов в Z
+    :return:
+    """
     for i in range(1, len(z_with_star) + 1):
         if pow(element, i) % p == 1:
             order = i
@@ -42,6 +64,11 @@ def get_order(element, z_with_star, p):
 
 
 def get_orders_for_all_elements(z_with_star, p):
+    """
+    :param z_with_star: Группа Z*
+    :param p: Кол-во элементов в Z
+    :return: Словарь { элемент : порядок элемента }
+    """
     orders = {}
     for element in z_with_star:
         orders[element] = get_order(element, z_with_star, p)
@@ -49,6 +76,10 @@ def get_orders_for_all_elements(z_with_star, p):
 
 
 def print_orders(orders):
+    """
+    :param orders: Словарь { элемент : порядок элемента }
+    :return: Словарь { элемент : порядок элемента }, пригодный для вывода
+    """
     result = ''
     # cnt = 0
     for key, value in orders.items():
@@ -60,6 +91,10 @@ def print_orders(orders):
 
 
 def get_groups(orders):
+    """
+    :param orders: Словарь { элемент : порядок элемента }
+    :return: Массив из всех порядков, которые существуют в группе
+    """
     groups = set()
     for order in orders.values():
         groups.add(order)
@@ -67,6 +102,12 @@ def get_groups(orders):
 
 
 def get_elements_for_group(group_order, orders, z):
+    """
+    :param group_order: Порядок группы
+    :param orders: Словарь { элемент : порядок элемента }
+    :param z: Кольцо Z
+    :return: Все элементы подгруппы порядка group_order
+    """
     generate_element = 0
     result_group = set()
     for element, order in orders.items():
@@ -80,6 +121,12 @@ def get_elements_for_group(group_order, orders, z):
 
 
 def get_filled_groups(groups, orders, z):
+    """
+    :param groups: Массив из всех порядков, которые существуют в группе
+    :param orders: Словарь { элемент : порядок элемента }
+    :param z: Кольцо Z
+    :return: Все подгруппы Z*, с образующими и всеми элементами
+    """
     i = 0
     filled_groups = ''
     for group_order in reversed(groups):
@@ -102,7 +149,7 @@ def get_answer_for_task4(p):
     z_with_star = get_z_with_star(z)
     orders = get_orders_for_all_elements(z_with_star, p)
     groups = get_groups(orders)
-    answer = '\n\nЗадача 4:\n'
+    answer = '\n\nЗадача 3:\n'
     answer += f'{print_z(z)}\n'
     answer += f'Z_{p}* = {print_array(z_with_star)}\n\n'
     answer += f'{print_orders(orders)}\n'
