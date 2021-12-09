@@ -96,18 +96,16 @@ def get_filled_groups(groups, orders, z):
     return filled_groups
 
 
-def get_answer_for_task4():
-    p = int(input("Введите Z_: "))
+def get_answer_for_task4(p):
+    # p = int(input("Введите Z_: "))
     z = get_z(p)
     z_with_star = get_z_with_star(z)
     orders = get_orders_for_all_elements(z_with_star, p)
     groups = get_groups(orders)
-    answer = ''
+    answer = '\n\nЗадача 4:\n'
     answer += f'{print_z(z)}\n'
     answer += f'Z_{p}* = {print_array(z_with_star)}\n\n'
     answer += f'{print_orders(orders)}\n'
     answer += f'{get_filled_groups(groups, orders, z)}'
     return answer
 
-
-print(get_answer_for_task4())

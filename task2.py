@@ -6,12 +6,15 @@ SETTINGS = {
 }
 
 
-def get_answer(cardinality):
-    print(get_g(cardinality))
-    print(get_generating_set(cardinality, get_all_elements(cardinality)))
-    print(get_other_sets(cardinality, get_all_elements(cardinality)))
-    print(get_filled_groups(cardinality, get_groups(cardinality, get_all_elements(cardinality)),
-          get_all_elements(cardinality)))
+def get_answer_task2(cardinality):
+    answer_task2 = '\n'
+    answer_task2 += "Задача 2:\n\n"
+    answer_task2 += f'{get_g(cardinality)}'
+    answer_task2 += f'{get_generating_set(cardinality, get_all_elements(cardinality))}\n\n'
+    answer_task2 += f'{get_other_sets(cardinality, get_all_elements(cardinality))}\n'
+    groups = get_groups(cardinality, get_all_elements(cardinality))
+    answer_task2 += f'{get_filled_groups(cardinality, groups, get_all_elements(cardinality))}'
+    return answer_task2
 
 
 def get_g(cardinality):
@@ -100,4 +103,3 @@ def get_filled_groups(cardinality, groups, elements_cardinality):
         filled_groups += f'}} |H{i}| = {group_order}\n'
     filled_groups += f'H{i + 1} = <1g> = {{ 1g }} |H{i + 1}| = 1'
     return filled_groups
-

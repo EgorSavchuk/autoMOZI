@@ -189,14 +189,14 @@ def print_substitution(substitution):
     return result
 
 
-def get_result():
-    substitution1 = input("Первая подстановка, введите только числа второй строки через пробел: ").split()
-    substitution1 = list(map(int, substitution1))
-    substitution2 = input("Вторая подстановка, введите только числа второй строки через пробел: ").split()
-    substitution2 = list(map(int, substitution2))
-    pow_substitution1 = int(input("Введите степень первой подстановки: "))
-    pow_substitution2 = int(input("Введите степень второй подстановки: "))
-    pow_general = int(input("Введите общую степень подстановок, если такой нет в задании введите 1: "))
+def get_result_task3(substitution1, substitution2, pow_substitution1, pow_substitution2, pow_general):
+    # substitution1 = input("Первая подстановка, введите только числа второй строки через пробел: ").split()
+    # substitution1 = list(map(int, substitution1))
+    # substitution2 = input("Вторая подстановка, введите только числа второй строки через пробел: ").split()
+    # substitution2 = list(map(int, substitution2))
+    # pow_substitution1 = int(input("Введите степень первой подстановки: "))
+    # pow_substitution2 = int(input("Введите степень второй подстановки: "))
+    # pow_general = int(input("Введите общую степень подстановок, если такой нет в задании введите 1: "))
     substitution1_cycle = get_cycle(substitution1)
     substitution2_cycle = get_cycle(substitution2)
     a_lcm = get_lcm(substitution1_cycle)
@@ -207,7 +207,8 @@ def get_result():
     substitution2_in_pow = get_raised_full_cycle(substitution2_cycle, b_pow)
     result_substitution = calculate_substitutions(to_substitution(substitution1_in_pow, substitution1),
                                                   to_substitution(substitution2_in_pow, substitution2))
-    answer = f'\na = {print_substitution(get_default_substitution(substitution1))}\n' \
+    answer = f'\n\nЗадача 3:\n' \
+             f'\na = {print_substitution(get_default_substitution(substitution1))}\n' \
              f'    {print_substitution(substitution1)}\n\n' \
              f'b = {print_substitution(get_default_substitution(substitution2))}\n' \
              f'    {print_substitution(substitution2)}\n\n' \
