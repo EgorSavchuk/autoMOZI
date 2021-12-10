@@ -1,4 +1,3 @@
-# autoMOZI
 ## Запуск
 ```bash
 git clone https://github.com/EgorSavchuk/autoMOZI
