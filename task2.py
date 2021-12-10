@@ -161,7 +161,8 @@ def get_filled_groups_html(cardinality, groups, elements_cardinality):
     :param elements_cardinality: Словарь формата { 'степень элемента' : ' порядок элемента' }
     :return: Подгруппу, образующие подгруппы, полный список элементов подгруппы, порядок подгруппы
     """
-    filled_groups = f'H<sub>1</sub> = {get_generating_set_html(cardinality, get_all_elements(cardinality))} |H<sub>1</sub>| = {cardinality}\n'
+    filled_groups = f'H<sub>1</sub> = {get_generating_set_html(cardinality, get_all_elements(cardinality))} |H<sub>1' \
+                    f'</sub>| = {cardinality}\n '
     i = 1
     for group_order in reversed(groups):
         i += 1

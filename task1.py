@@ -1,109 +1,174 @@
-def gettingValues():
-    """
-    Функция запрашивает от пользователя правило операции\n
-    :return: Математическое выражение в строковой форме
-    """
-    print('Введите, чему равна операция x * y, заменяя степени произведением. \n'
-          'Знаки сложения опускаются, умножение пишется слитно. \n'
-          'Вычитание ставится перед делителем и вычитаемым соответственно. \n'
-          'Например: 3ххх -2хуу 2 будет означать 3х^3 - 2xy^2 + 2')
-    line = str(input())
-    return line
+import sympy
 
 
-def parse(expression):
-    """
-    Преобразует математическое выражение в строковой форме
-    в вид для работы программы\n
-    :param string expression: Математическое выражение
-    :return: Словарь {переменная -> коэффициент}
-    """
-    split_expression = expression.split(' ')
-    values = {}
-    for i in split_expression:
-        coefficient = ''
-        variable = ''
-        for j in i:
-            if j.isdigit():
-                coefficient += j
-            elif j.isalpha():
-                variable += j
-            elif j == '-':
-                coefficient += '-'
-        if variable == '':
-            variable = 'С'
-        if coefficient == '':
-            coefficient = '1'
-        values[variable] = int(coefficient)
-    for i, j in values.items():
-        print(i, j)
-    return values
+def to_html(line):
+    line += " "
+    r = ""
+    c = 0
+    p = ""
+    for i in line:
+        if i == "^":
+            r += "<sup>"
+            c = 1
+        elif c == 1:
+            if i.isalpha() and p != "^" or i == " " or i == "\n":
+                r += "</sup>"
+                c = 0
+            r += i
+        else:
+            r += i
+        p = i
+    return r[:-1]
 
 
-def complex_multiplication(x, y):
+def print_primer(s, a, b):
+    # Название не оч удачное.
     """
-    Вычисляет результат умножения двух выражений\n
-    :param dict[str, int] x: Выражение х
-    :param dict[str, int] y: Выражение у
-    :return: Результат умножения
-    """
-    result = {}
-    for i, j in x.items():
-        for m, n in y.items():
-            variable = i + m
-            sort_var = ""
-            for k in sorted(variable):
-                sort_var += k
-            coefficient = j * n
-            if sort_var not in result:
-                result[sort_var] = coefficient
+    На примере будет понятен смысл функции
+    Пример работы:
+    На входные данные (2a + 3b, 'b', 'c')
+    Она вернёт: 2b + 3c
+    Более сложный пример:
+    На входные данные (ab + a, 'b^3 + b^2 + b', 'c')
+    Она вернёт: (b^3 + b^2 + b)c + (b^3 + b^2 + b)
+"""
+    result = ""
+    for i in s:
+        if (i == "a"):
+            if a.count(' ') > 0:
+                result += f"({a})"
             else:
-                result[sort_var] += coefficient
-    for i, j in result.items():
-        print(i, j)
+                result += a
+        elif (i == "b"):
+            if b.count(' ') > 0:
+                result += f"({b})"
+            else:
+                result += b
+        else:
+            result += i
     return result
 
 
-def complex_sum(x, y):
-    """
-    Вычисляет результат сложения двух выражений\n
-    :param dict[str, int] x: Выражение х
-    :param dict[str, int] y: Выражение н
-    :return: Результат сложения
-    """
-    for i, j in y.items():
-        if i in x:
-            x[i] += j
-        else:
-            x[i] = j
-    for i, j in x.items():
-        print(i, j)
-    return x
-
-
-def calculation(x, y, values):
-    """
-    Считает, значение операции\n
-    :param string x: Первое выражение операции
-    :param string y: Второе выражение операции
-    :param dict values: Правило операции
-    :return Результат проведения операции
-    """
-    z = ''
-    return z
+def add_zv(s):
+    # Добавляет где нужно звёздочки, в катчетве умножения, чтою sympy понял что к чему
+    r = ""
+    pred = ""
+    for i in s:
+        if pred.isalpha() and (i.isalpha() or i == "(") or pred.isdigit() and (i.isalpha() or i == "(") or pred == ")" and (i.isalpha() or i.isdigit() or i == "("):
+            r += "*"
+        pred = i
+        r += i
+    return r
 
 
 def associativity(values):
-    """Проверяет на ассоциативность:\n
-    x * (y * z) = (x * y) * z\n
-    :param dict values: Правило операции
-    :return: Результат проверки
-    """
-    return True
+    result = "Ассоциативность:\na * (b * c) = (a * b) * c\n"
+    a = print_primer(values, 'a', 'b')
+    b = print_primer(values, 'b', 'c')
+    result += f"a * ({b}) ? ({a}) * c\n"
+    left = print_primer(values, 'a', b)
+    right = print_primer(values, a, 'c')
+    result += f"{left} ? {right}\n"
+    left = str(sympy.simplify(add_zv(left))).replace("**", "^").replace("*", "")
+    right = str(sympy.simplify(add_zv(right))).replace("**", "^").replace("*", "")
+    result += f"{left} ? {right}\n"
+    left = str(sympy.simplify(add_zv(left) + '-' + '(' + add_zv(right) + ')')).replace("**", "^").replace("*", "")
+    result += f"{left} ? 0\n"
+    if sympy.simplify(add_zv(left) + '==' + '0'):
+        result += "0 = 0\nАссоциативность выполняется\n\n\n"
+    else:
+        result += f"{left} ≠ 0\nАссоциативность не выполняется\n(P.S. Придумайте сами пример, при котором равенство не выполняется)\n\n\n"
+    return result
+    
+
+def commutativity(values):
+    result = "Комутативность:\na * b = b * a\n"
+    right = print_primer(values, 'b', 'a')
+    result += f"{values} ? {right}\n"
+    left = str(sympy.simplify(add_zv(values) + '-' + '(' + add_zv(right) + ')')).replace("**", "^").replace("*", "")
+    result += f"{left} ? 0\n"
+    if sympy.simplify(add_zv(left) + '==' + '0'):
+        result += "0 = 0\nКомутативность выполняется\n\n\n"
+    else:
+        result += f"{left} ≠ 0\nКомутативность не выполняется\n(P.S. Придумайте сами пример, при котором равенство не выполняется)\n\n\n"
+    return result
 
 
-# parse('хxx -2xyy 2')
-x = {'a': 3, 'aab': 4}
-y = {'a': 5, 'aab': -7}
-complex_multiplication(x, y)
-complex_sum(x, y)
+def neutral_element(values):
+    result = "Существование нейтрального элемента:\na * e = e * a = a\n\n"
+    left = print_primer(values, 'a', 'e')
+    right = print_primer(values, 'e', 'a')
+    result += f"{left} = a\n{right} = a\n\n"
+    left = str(sympy.simplify(add_zv(left) + '-' + 'a')).replace("**", "^").replace("*", "")
+    right = str(sympy.simplify(add_zv(right) + '-' + 'a')).replace("**", "^").replace("*", "")
+    result += f"{left} = 0\n{right} = 0\n\n"
+    left = str(sympy.solvers.solve(add_zv(left), "e"))[1:-1].replace("**", "^").replace("*", "")
+    right = str(sympy.solvers.solve(add_zv(right), "e"))[1:-1].replace("**", "^").replace("*", "")
+    result += f"e = {left}\ne = {right}\n\n"
+    if left != right:
+        result += "Нейтрального элемента не существует\n\n\n"
+    elif left.isdigit() == False:
+        result += "Нейтрального элемента не существует\n\n\n"
+    else:
+        result += f"Нейтральный элемент: e = {left}\n\n\n"
+        
+    return result
+
+
+def reversible_element(values):
+    result = "Существование обратимых элементов элементов:\nx * y = y * x = e\n\n"
+    left = print_primer(values, 'x', 'y')
+    right = print_primer(values, 'y', 'x')
+    result += f"{left} = e\n{right} = e\n\n"
+    result += "Дальше хз\n\n\n"
+
+
+def quasigroup(values):
+    result = "Свойство квазигруппы:\nx * a = a * y = b\n\n"
+    left = print_primer(values, 'x', 'a')
+    right = print_primer(values, 'a', 'y')
+    result += f"{left} = b\n{right} = b\n\n"
+    left = str(sympy.solvers.solve(add_zv(left + "- b"), "x"))[1:-1].replace("**", "^").replace("*", "")
+    right = str(sympy.solvers.solve(add_zv(right + "- b"), "y"))[1:-1].replace("**", "^").replace("*", "")
+    result += f"x = {left}\ny = {right}\n\n\n"
+    return result
+
+
+def get_answer_task1(s):
+    result = "Задача 1: \n\n"
+    for i in s:
+        if i != "a" and i != "b" and i != " " and i != "+" and i != "-" and i != "^" and not i.isdigit():
+            print("Задача 1: Ошибка ввода")
+            return ""
+    try:
+        s = str(sympy.simplify(add_zv(s))).replace("**", "^").replace("*", "")  # Оптимизация строки
+    except:
+        print("Задача 1: Ошибка ввода")
+        return ""
+    result = "\n"
+    try:
+        result += associativity(s) # Проверка на ассоциативность
+    except:
+        print("Задача 1: Ошибка во время проверки на ассоциативность")
+    try:
+        result += commutativity(s)
+    except:
+        print("Задача 1: Ошибка во время проверки на комутативность")
+    try:
+        result += neutral_element(s)
+    except:
+        print("Задача 1: Ошибка во время проверки на существование нейтрального элемента")
+    try:
+        if result[-16:-3] == "не существует":
+            result += "Существование обратимых элементов:\nx * y = y * x = e\nЕсли нейтрального элемента не существует,\nто обратимых элементов тоже не существует\n\n\n"
+        else:
+            result += reversible_element(s)
+    except:
+        print("Задача 1: Ошибка во время проверки на существование обратимых элементов")
+    try:
+        result += quasigroup(s)
+    except:
+        print("Задача 1: Ошибка во время проверки на свойство квазигруппы")
+
+    return result
+    
