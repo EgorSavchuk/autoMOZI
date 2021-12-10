@@ -28,4 +28,7 @@ pre{
     font-weight: bold;
     font-size: 30px;
     letter-spacing: 2px;
+    width: 700px;
+    white-space: pre-wrap;
+
 }
