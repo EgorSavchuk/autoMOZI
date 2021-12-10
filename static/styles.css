@@ -1,0 +1,31 @@
+@font-face {
+  font-family: 'Caveat';
+  font-style: normal;
+  font-weight: 400;
+  src: local(''),
+       url('caveat-v10-latin-ext_latin_cyrillic-ext_cyrillic-regular.woff2') format('woff2'), /* Chrome 26+, Opera 23+, Firefox 39+ */
+       url('caveat-v10-latin-ext_latin_cyrillic-ext_cyrillic-regular.woff') format('woff'); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+}
+/* caveat-700 - latin-ext_latin_cyrillic-ext_cyrillic */
+@font-face {
+  font-family: 'Caveat';
+  font-style: normal;
+  font-weight: 700;
+  src: local(''),
+       url('caveat-v10-latin-ext_latin_cyrillic-ext_cyrillic-700.woff2') format('woff2'), /* Chrome 26+, Opera 23+, Firefox 39+ */
+       url('caveat-v10-latin-ext_latin_cyrillic-ext_cyrillic-700.woff') format('woff'); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+}
+.solves{
+    margin-left: 250px;
+}
+
+body{
+    background: url("back2.jpg");
+    background-size: 50%;
+}
+pre{
+    font-family: "Caveat", sans-serif;!important;
+    font-weight: bold;
+    font-size: 30px;
+    letter-spacing: 2px;
+}

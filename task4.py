@@ -26,6 +26,20 @@ def print_z(z):
     return printable_z[:-2] + ' }'
 
 
+def print_z_html(z):
+    """
+    :param z: Кольцо Z
+    :return: Кольцо Z, пригодное для вывода
+    """
+    printable_z = f'Z<sub>{len(z)}</sub> = {{ '
+    for i in range(1, 5):
+        printable_z += f'{z[i]}, '
+    printable_z += f'... '
+    for j in range(len(z) - 3, len(z)):
+        printable_z += f'{z[j]}, '
+    return printable_z[:-2] + ' }'
+
+
 def get_z_with_star(z):
     """
     :param z: Кольцо Z
@@ -143,6 +157,29 @@ def get_filled_groups(groups, orders, z):
     return filled_groups
 
 
+def get_filled_groups_html(groups, orders, z):
+    """
+    :param groups: Массив из всех порядков, которые существуют в группе
+    :param orders: Словарь { элемент : порядок элемента }
+    :param z: Кольцо Z
+    :return: Все подгруппы Z*, с образующими и всеми элементами
+    """
+    i = 0
+    filled_groups = ''
+    for group_order in reversed(groups):
+        i += 1
+        filled_groups += f'H<sub>{i}</sub>'
+        element_for_fill = 0
+        for element, order in orders.items():
+            if order == group_order:
+                if element_for_fill == 0:
+                    element_for_fill = element
+                filled_groups += f' = &lt;{element}&gt; '
+        filled_groups += f'= {print_array(get_elements_for_group(group_order, orders, z))}'
+        filled_groups += f' |H<sub>{i}</sub>| = {group_order}\n'
+    return filled_groups
+
+
 def get_answer_for_task4(p):
     # p = int(input("Введите Z_: "))
     z = get_z(p)
@@ -156,3 +193,16 @@ def get_answer_for_task4(p):
     answer += f'{get_filled_groups(groups, orders, z)}'
     return answer
 
+
+def get_answer_for_task4_html(p):
+    # p = int(input("Введите Z_: "))
+    z = get_z(p)
+    z_with_star = get_z_with_star(z)
+    orders = get_orders_for_all_elements(z_with_star, p)
+    groups = get_groups(orders)
+    answer = '\n\nЗадача 3:\n'
+    answer += f'{print_z_html(z)}\n'
+    answer += f'Z<sub>{p}</sub><sup>*</sup> = {print_array(z_with_star)}\n\n'
+    answer += f'{print_orders(orders)}\n'
+    answer += f'{get_filled_groups_html(groups, orders, z)}'
+    return answer
