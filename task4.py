@@ -18,7 +18,7 @@ def print_z(z):
     :return: Кольцо Z, пригодное для вывода
     """
     printable_z = f'Z_{len(z)} = {{ '
-    for i in range(1, 5):
+    for i in range(0, 5):
         printable_z += f'{z[i]}, '
     printable_z += f'... '
     for j in range(len(z) - 3, len(z)):
