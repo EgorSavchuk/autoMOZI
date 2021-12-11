@@ -98,36 +98,40 @@ def neutral_element(values):
     result = "Существование нейтрального элемента:\na * e = e * a = a\n\n"
     left = print_primer(values, 'a', 'e')
     right = print_primer(values, 'e', 'a')
-    result += f"{left} = a\n{right} = a\n\n"
+    result += f"{left} = a\n{right} = a\n"
     left = str(sympy.simplify(add_zv(left) + '-' + 'a')).replace("**", "^").replace("*", "")
     right = str(sympy.simplify(add_zv(right) + '-' + 'a')).replace("**", "^").replace("*", "")
-    result += f"{left} = 0\n{right} = 0\n\n"
+    result += f"{left} = 0\n{right} = 0\n"
     left = str(sympy.solvers.solve(add_zv(left), "e"))[1:-1].replace("**", "^").replace("*", "")
     right = str(sympy.solvers.solve(add_zv(right), "e"))[1:-1].replace("**", "^").replace("*", "")
-    result += f"e = {left}\ne = {right}\n\n"
+    result += f"e = {left}\ne = {right}\n"
     if left != right:
         result += "Нейтрального элемента не существует\n\n\n"
     elif left.isdigit() == False:
         result += "Нейтрального элемента не существует\n\n\n"
     else:
         result += f"Нейтральный элемент: e = {left}\n\n\n"
-        
-    return result
+
+    return result, left
 
 
-def reversible_element(values):
+def reversible_element(values, e):
     result = "Существование обратимых элементов элементов:\nx * y = y * x = e\n\n"
     left = print_primer(values, 'x', 'y')
     right = print_primer(values, 'y', 'x')
     result += f"{left} = e\n{right} = e\n\n"
-    result += "Дальше хз\n\n\n"
+    result += f"{left} = {e}\n{right} = {e}\n\n"
+    left = str(sympy.solvers.solve(add_zv(left + f"- {e}"), "x"))[1:-1].replace("**", "^").replace("*", "")
+    right = str(sympy.solvers.solve(add_zv(right + f"- {e}"), "y"))[1:-1].replace("**", "^").replace("*", "")
+    result += f"x = {left}\ny = {right}\n\n\n"
+    return result
 
 
 def quasigroup(values):
-    result = "Свойство квазигруппы:\nx * a = a * y = b\n\n"
+    result = "Свойство квазигруппы:\nx * a = a * y = b\n"
     left = print_primer(values, 'x', 'a')
     right = print_primer(values, 'a', 'y')
-    result += f"{left} = b\n{right} = b\n\n"
+    result += f"{left} = b\n{right} = b\n"
     left = str(sympy.solvers.solve(add_zv(left + "- b"), "x"))[1:-1].replace("**", "^").replace("*", "")
     right = str(sympy.solvers.solve(add_zv(right + "- b"), "y"))[1:-1].replace("**", "^").replace("*", "")
     result += f"x = {left}\ny = {right}\n\n\n"
@@ -136,10 +140,10 @@ def quasigroup(values):
 
 def get_answer_task1(s):
     result = "Задача 1: \n\n"
-    for i in s:
-        if i != "a" and i != "b" and i != " " and i != "+" and i != "-" and i != "^" and not i.isdigit():
-            print("Задача 1: Ошибка ввода")
-            return ""
+    # for i in s:
+    #     if i != "a" and i != "b" and i != " " and i != "+" and i != "-" and i != "^" and not i.isdigit():
+    #         print("Задача 1: Ошибка ввода")
+    #         return ""
     try:
         s = str(sympy.simplify(add_zv(s))).replace("**", "^").replace("*", "")  # Оптимизация строки
     except:
@@ -155,14 +159,15 @@ def get_answer_task1(s):
     except:
         print("Задача 1: Ошибка во время проверки на комутативность")
     try:
-        result += neutral_element(s)
+        tmp, e = neutral_element(s)
+        result += tmp
     except:
         print("Задача 1: Ошибка во время проверки на существование нейтрального элемента")
     try:
         if result[-16:-3] == "не существует":
             result += "Существование обратимых элементов:\nx * y = y * x = e\nЕсли нейтрального элемента не существует,\nто обратимых элементов тоже не существует\n\n\n"
         else:
-            result += reversible_element(s)
+            result += reversible_element(s, e)
     except:
         print("Задача 1: Ошибка во время проверки на существование обратимых элементов")
     try:
