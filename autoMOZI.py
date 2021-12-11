@@ -6,14 +6,14 @@ from task3 import get_result_task3, get_result_task3_html
 from task4 import get_answer_for_task4, get_answer_for_task4_html
 
 if __name__ == '__main__':
-    task1 = str(input("Решить задачу 1 y/n: "))
-    if task1 == 'y':
+    task1 = str(input("Решить задачу 'Изучение свойств алгебраической структуры?' y/n: "))
+    if task1 == 'y' or task1 == 'н':
         condition = str(input("Операция a * b =  "))
     task2 = str(input("Решить задачу с исследованием абстрактной циклической группы? y/n: "))
-    if task2 == 'y':
+    if task2 == 'y' or task2 == 'н':
         cardinality = int(input("Задача с исследованием абстрактной циклической группы: Введите порядок группы: "))
-    task3 = str(input("Решить задачу 2 y/n: "))
-    if task3 == 'y':
+    task3 = str(input("Решить задачу с вычислением подстановок? y/n: "))
+    if task3 == 'y' or task3 == 'н':
         substitution1 = input("Задача 2: Первая подстановка, введите только числа второй строки через пробел: ").split()
         substitution1 = list(map(int, substitution1))
         substitution2 = input("Задача 2: Вторая подстановка, введите только числа второй строки через пробел: ").split()
@@ -21,8 +21,8 @@ if __name__ == '__main__':
         pow_substitution1 = int(input("Задача 2: Введите степень первой подстановки: "))
         pow_substitution2 = int(input("Задача 2: Введите степень второй подстановки: "))
         pow_general = int(input("Задача 2: Введите общую степень подстановок, если такой нет в задании введите 1: "))
-    task4 = str(input("Решить задачу 3 y/n: "))
-    if task4 == 'y':
+    task4 = str(input("Решить задачу про кольцо классов вычетов? y/n: "))
+    if task4 == 'y' or task4 == 'н':
         p = int(input("Задача 3: Введите Z_: "))
 
     if '-html' in sys.argv:
@@ -63,6 +63,7 @@ if __name__ == '__main__':
 
         f = open('solve.html', 'w')
         f.write(msg)
+        print("Файл с решением solve.html создан в корневой папке (autoMOZI)")
     else:
         all_answer = ''
         if task1 == 'y':

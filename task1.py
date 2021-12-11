@@ -77,7 +77,7 @@ def associativity(values):
     if sympy.simplify(add_zv(left) + '==' + '0'):
         result += "0 = 0\nАссоциативность выполняется\n\n\n"
     else:
-        result += f"{left} ≠ 0\nАссоциативность не выполняется\n(P.S. Придумайте сами пример, при котором равенство не выполняется)\n\n\n"
+        result += f"{left} ≠ 0\nАссоциативность не выполняется\n(Для индивидуальности пример, при каких значениях ассоциативность не выполняется лучше написать самому)\n\n\n"
     return result
     
 
@@ -90,12 +90,12 @@ def commutativity(values):
     if sympy.simplify(add_zv(left) + '==' + '0'):
         result += "0 = 0\nКомутативность выполняется\n\n\n"
     else:
-        result += f"{left} ≠ 0\nКомутативность не выполняется\n(P.S. Придумайте сами пример, при котором равенство не выполняется)\n\n\n"
+        result += f"{left} ≠ 0\nКомутативность не выполняется\n(Для индивидуальности пример, при каких значениях коммутативность не выполняется лучше написать самому)\n\n\n"
     return result
 
 
 def neutral_element(values):
-    result = "Существование нейтрального элемента:\na * e = e * a = a\n\n"
+    result = "Существование нейтрального элемента:\na * e = e * a = a\n"
     left = print_primer(values, 'a', 'e')
     right = print_primer(values, 'e', 'a')
     result += f"{left} = a\n{right} = a\n"
