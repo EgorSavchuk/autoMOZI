@@ -62,6 +62,8 @@ def get_cycle_in_pow(single_cycle, cycle_pow):
     :param cycle_pow: Степень в которую нужно возвести цикл
     :return: Одиночный цикл, возведенный в степень
     """
+    if cycle_pow == 0:
+        return ['e']
     mod = cycle_pow % lcm(len(single_cycle), cycle_pow)
     result_cycle = [single_cycle[0]] * len(single_cycle)
     if mod == 1:
@@ -284,3 +286,31 @@ def get_result_task3_html(substitution1, substitution2, pow_substitution1, pow_s
                   f'(a<sup>{a_pow}</sup> * b<sup>{b_pow}</sup> )<sup>{pow_general}</sup> = (a<sup>{a_pow}</sup> * b<sup>{b_pow}</sup>)<sup>{s_pow}</sup> = c\n' \
                   f'c = {print_cycle(get_raised_full_cycle(get_cycle(result_substitution), s_pow))}'
     return answer
+
+
+# substitution1 = [5, 9, 3, 6, 1, 7, 4, 8, 10, 2]
+# substitution2 = [5, 9, 1, 2, 3, 7, 4, 10, 6, 8]
+# pow_substitution1 = 153
+# pow_substitution2 = 798
+# pow_general = 310
+# substitution1_cycle = get_cycle(substitution1)
+# substitution2_cycle = get_cycle(substitution2)
+# a_lcm = get_lcm(substitution1_cycle)
+# b_lcm = get_lcm(substitution2_cycle)
+# a_pow = get_modulo(pow_substitution1, a_lcm)
+# b_pow = get_modulo(pow_substitution2, b_lcm)
+# substitution1_in_pow = get_raised_full_cycle(substitution1_cycle, a_pow)
+# substitution2_in_pow = get_raised_full_cycle(substitution2_cycle, b_pow)
+# result_substitution = calculate_substitutions(to_substitution(substitution1_in_pow, substitution1),
+#                                                   to_substitution(substitution2_in_pow, substitution2))
+# s_pow = get_modulo(pow_general, get_lcm(get_cycle(result_substitution)))
+# print(s_pow)
+# # print(result_substitution)
+# # print(result_substitution)
+# print(f'c = {print_cycle(get_raised_full_cycle(get_cycle([5, 7, 3, 6, 1, 2, 9, 8, 4, 10]), s_pow))}')
+# #                   f'O(a^{a_pow} * b^{b_pow}) = ' \
+# #                   f'НОК({print_lcm(get_cycle(result_substitution))})' \
+# #                   f' = {get_lcm(get_cycle(result_substitution))}\n' \
+# #                   f'{print_simplification(pow_general, s_pow, get_lcm(get_cycle(result_substitution)))}\n\n' \
+# #                   f'(a^{a_pow} * b^{b_pow} )^{pow_general} = (a^{a_pow} * b^{b_pow})^{s_pow} = c\n' \
+
