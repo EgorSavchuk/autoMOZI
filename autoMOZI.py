@@ -28,7 +28,7 @@ if __name__ == '__main__':
     if '-html' in sys.argv:
         file_loader = FileSystemLoader('Templates')
         env = Environment(loader=file_loader)
-        tm = env.get_template('index.html')
+        tm = env.get_template('template.html')
         visibility_task1 = 'hidden="true"'
         visibility_task2 = 'hidden="true"'
         visibility_task3 = 'hidden="true"'

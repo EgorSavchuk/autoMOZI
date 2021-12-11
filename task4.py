@@ -162,7 +162,7 @@ def get_filled_groups_html(groups, orders, z):
     :param groups: Массив из всех порядков, которые существуют в группе
     :param orders: Словарь { элемент : порядок элемента }
     :param z: Кольцо Z
-    :return: Все подгруппы Z*, с образующими и всеми элементами
+    :return: Все подгруппы Z*, с образующими и элементами
     """
     i = 0
     filled_groups = ''

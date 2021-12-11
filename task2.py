@@ -1,5 +1,4 @@
 from math import gcd
-
 SETTINGS = {
     'var': 'x',
     'pow': '^',

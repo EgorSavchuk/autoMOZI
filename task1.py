@@ -176,4 +176,3 @@ def get_answer_task1(s):
         print("Задача 1: Ошибка во время проверки на свойство квазигруппы")
 
     return result
-    
